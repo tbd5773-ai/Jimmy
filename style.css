@@ -20,7 +20,6 @@ body {
   flex-direction: column;
 }
 
-/* HEADER */
 header {
   height: 75px;
   display: flex;
@@ -46,7 +45,6 @@ header {
   box-shadow: 0 0 10px #00eaff;
 }
 
-/* CORE ANIMATION & WEBCAM */
 .core-section {
   flex: 1;
   display: flex;
@@ -65,7 +63,6 @@ header {
   justify-content: center;
 }
 
-/* Video Frame Styling (Sci-Fi Look) */
 #webcam {
   position: absolute;
   width: 175px;
@@ -73,8 +70,7 @@ header {
   border-radius: 50%;
   object-fit: cover;
   opacity: 0.45;
-  filter: brightness(0.9) contrast(1.2) cyan-drop-shadow;
-  transform: scaleX(-1); /* สลับภาพซ้าย-ขวาเหมือนกระจก */
+  transform: scaleX(-1);
 }
 
 .ring {
@@ -125,7 +121,6 @@ header {
   box-shadow: 0 0 20px white, 0 0 40px #00d9ff;
 }
 
-/* STATE ANIMATIONS */
 .listening .ring1 { animation: rotate 3s linear infinite; }
 .listening .ring2 { animation: rotateReverse 2s linear infinite; }
 .listening #webcam { opacity: 0.75; }
@@ -137,22 +132,29 @@ header {
   color: #57dff5;
 }
 
-/* KEYFRAMES */
-@keyframes rotate {
-  from { transform: rotate(0); }
-  to { transform: rotate(360deg); }
+/* OVERLAY FOR MOBILE PERMISSION */
+#startOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 4, 8, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
 }
 
-@keyframes rotateReverse {
-  from { transform: rotate(360deg); }
-  to { transform: rotate(0); }
+#startBtn {
+  padding: 15px 30px;
+  font-size: 14px;
+  letter-spacing: 3px;
+  color: #67eaff;
+  background: rgba(0, 160, 200, 0.15);
+  border: 1px solid #00d9ff;
+  border-radius: 30px;
+  cursor: pointer;
+  box-shadow: 0 0 15px rgba(0, 217, 255, 0.3);
 }
 
-@keyframes pulse {
-  0%, 100% { transform: scale(.9); opacity: .6; }
-  50% { transform: scale(1.1); opacity: 1; }
-}
-
-@media(max-width:600px) {
-  .core { transform: scale(.8); }
-}
+@keyframes rotate { from { transform: rotate(0); } to { transform: rotate(360deg); } }
+@keyframes rotateReverse { from { transform: rotate(360deg); } to { transform: rotate(0); } }
+@keyframes pulse { 0%, 100% { transform: scale(.9); opacity: .6; } 50% { transform: scale(1.1); opacity: 1; } }
