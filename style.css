@@ -1,0 +1,158 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  background: radial-gradient(circle at center, #10243a, #050b12 45%, #020408);
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+  overflow: hidden;
+}
+
+.app {
+  width: min(900px, 94%);
+  min-height: 100vh;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* HEADER */
+header {
+  height: 75px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 190, 255, .15);
+}
+
+.status {
+  margin-left: auto;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: #67eaff;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.status span {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #00eaff;
+  box-shadow: 0 0 10px #00eaff;
+}
+
+/* CORE ANIMATION & WEBCAM */
+.core-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.core {
+  width: 230px;
+  height: 230px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Video Frame Styling (Sci-Fi Look) */
+#webcam {
+  position: absolute;
+  width: 175px;
+  height: 175px;
+  border-radius: 50%;
+  object-fit: cover;
+  opacity: 0.45;
+  filter: brightness(0.9) contrast(1.2) cyan-drop-shadow;
+  transform: scaleX(-1); /* สลับภาพซ้าย-ขวาเหมือนกระจก */
+}
+
+.ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(0, 210, 255, .5);
+  pointer-events: none;
+}
+
+.ring1 {
+  width: 220px;
+  height: 220px;
+  animation: rotate 12s linear infinite;
+}
+
+.ring2 {
+  width: 175px;
+  height: 175px;
+  border-style: dashed;
+  animation: rotateReverse 8s linear infinite;
+}
+
+.ring3 {
+  width: 130px;
+  height: 130px;
+  border-color: #00d9ff;
+  box-shadow: 0 0 20px rgba(0, 217, 255, .5);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.core-center {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle, #d9fbff, #1bcfff 35%, #006580 70%, transparent 72%);
+  box-shadow: 0 0 30px #00d9ff, 0 0 70px rgba(0, 217, 255, .4);
+  pointer-events: none;
+}
+
+.core-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: white;
+  box-shadow: 0 0 20px white, 0 0 40px #00d9ff;
+}
+
+/* STATE ANIMATIONS */
+.listening .ring1 { animation: rotate 3s linear infinite; }
+.listening .ring2 { animation: rotateReverse 2s linear infinite; }
+.listening #webcam { opacity: 0.75; }
+
+#state {
+  margin-top: 25px;
+  font-size: 11px;
+  letter-spacing: 5px;
+  color: #57dff5;
+}
+
+/* KEYFRAMES */
+@keyframes rotate {
+  from { transform: rotate(0); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes rotateReverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0); }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(.9); opacity: .6; }
+  50% { transform: scale(1.1); opacity: 1; }
+}
+
+@media(max-width:600px) {
+  .core { transform: scale(.8); }
+}
