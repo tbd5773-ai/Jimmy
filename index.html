@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JARVIS AI</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  
+  <div class="app">
+    
+    <!-- HEADER -->
+    <header>
+      <div class="status">
+        <span></span>
+        ONLINE
+      </div>
+    </header>
+    
+    <!-- AI CORE & WEBCAM -->
+    <section class="core-section">
+      <div class="core">
+        <!-- Live Video Stream -->
+        <video id="webcam" autoplay playsinline muted></video>
+
+        <div class="ring ring1"></div>
+        <div class="ring ring2"></div>
+        <div class="ring ring3"></div>
+        
+        <div class="core-center">
+          <div class="core-dot"></div>
+        </div>
+      </div>
+      
+      <div id="state">
+        INITIALIZING CAMERA & MIC...
+      </div>
+    </section>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
