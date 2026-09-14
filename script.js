@@ -1,28 +1,41 @@
 const state = document.getElementById("state");
 const core = document.querySelector(".core-section");
 const webcam = document.getElementById("webcam");
+const startOverlay = document.getElementById("startOverlay");
+const startBtn = document.getElementById("startBtn");
 
-// 1. ขออนุญาตใช้งานกล้องและไมโครโฟน (Media Capture API)
-async function initMediaDevices() {
-  try {
-    const stream = await navigator.mediaDevices.getUserMedia({
-      video: { width: 640, height: 480 },
-      audio: true
-    });
-    
-    webcam.srcObject = stream;
-    state.textContent = "CLICK TO SPEAK";
-  } catch (err) {
-    console.error("Access denied:", err);
-    state.textContent = "CAM/MIC ACCESS DENIED";
-  }
-}
-
-// 2. ตั้งค่า Speech Recognition (ฟังเสียง)
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 let recognition;
 
-if (SpeechRecognition) {
+// เริ่มต้นระบบเมื่อผู้ใช้กดปุ่ม
+startBtn.addEventListener("click", async () => {
+  startOverlay.style.display = "none";
+  await initMediaDevices();
+  initSpeechRecognition();
+});
+
+// 1. ขออนุญาตใช้กล้องและไมค์
+async function initMediaDevices() {
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({
+      video: { facingMode: "user" },
+      audio: true
+    });
+    webcam.srcObject = stream;
+    state.textContent = "TAP CORE TO SPEAK";
+  } catch (err) {
+    state.textContent = "REQUIRES HTTPS OR PERMISSION";
+    alert("กรุณาเปิดผ่าน HTTPS หรืออนุญาตให้ใช้งานกล้อง/ไมค์");
+  }
+}
+
+// 2. ตั้งค่าการจำเสียง
+function initSpeechRecognition() {
+  if (!SpeechRecognition) {
+    state.textContent = "SPEECH API NOT SUPPORTED";
+    return;
+  }
+
   recognition = new SpeechRecognition();
   recognition.continuous = false;
   recognition.lang = "en-US";
@@ -39,25 +52,25 @@ if (SpeechRecognition) {
 
   recognition.onerror = () => resetState();
   recognition.onend = () => resetState();
-} else {
-  state.textContent = "VOICE NOT SUPPORTED";
 }
 
-// คลิกที่ Core เพื่อกดพูด
 core.addEventListener("click", () => {
-  if (!recognition) return;
-  recognition.start();
+  if (recognition) {
+    try {
+      recognition.start();
+    } catch (e) {
+      // ป้องกันการกดซ้ำขณะระบบกำลังฟัง
+    }
+  }
 });
 
 function resetState() {
   core.classList.remove("listening");
-  state.textContent = "CLICK TO SPEAK";
+  state.textContent = "TAP CORE TO SPEAK";
 }
 
-// 3. ประมวลผลคำสั่งเสียง
 function handleCommand(message) {
   state.textContent = "THINKING...";
-
   setTimeout(() => {
     const response = getJarvisResponse(message);
     speak(response);
@@ -66,31 +79,16 @@ function handleCommand(message) {
 
 function getJarvisResponse(message) {
   const text = message.toLowerCase();
-
-  if (text.includes("hello") || text.includes("hi")) {
-    return "Hello, sir. How can I help you?";
-  }
-  if (text.includes("who are you")) {
-    return "I am JARVIS, your personal voice assistant.";
-  }
-  if (text.includes("time")) {
-    return `The time is ${new Date().toLocaleTimeString()}.`;
-  }
-  if (text.includes("open youtube")) {
-    window.open("https://youtube.com", "_blank");
-    return "Opening YouTube, sir.";
-  }
-
+  if (text.includes("hello") || text.includes("hi")) return "Hello, sir. How can I help you?";
+  if (text.includes("time")) return `The time is ${new Date().toLocaleTimeString()}.`;
   return `You said: ${message}`;
 }
 
-// 4. ระบบตอบกลับด้วยเสียง (Text to Speech)
 function speak(text) {
   if (!("speechSynthesis" in window)) {
     resetState();
     return;
   }
-
   speechSynthesis.cancel();
   const speech = new SpeechSynthesisUtterance(text);
   speech.lang = "en-US";
@@ -106,6 +104,3 @@ function speak(text) {
 
   speechSynthesis.speak(speech);
 }
-
-// เริ่มต้นเปิดระบบกล้องและไมค์ทันทีเมื่อโหลดหน้าเว็บ
-initMediaDevices();
