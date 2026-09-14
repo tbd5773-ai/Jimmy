@@ -1,31 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>JARVIS AI</title>
+  <title>JIMMYAI</title>
   <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
   
   <div class="app">
-    
-    <!-- HEADER -->
     <header>
       <div class="status">
-        <span></span>
-        ONLINE
+        <span></span> ONLINE
       </div>
     </header>
     
-    <!-- AI CORE & WEBCAM -->
     <section class="core-section">
       <div class="core">
-        <!-- Live Video Stream -->
         <video id="webcam" autoplay playsinline muted></video>
-
         <div class="ring ring1"></div>
         <div class="ring ring2"></div>
         <div class="ring ring3"></div>
@@ -35,14 +27,16 @@
         </div>
       </div>
       
-      <div id="state">
-        INITIALIZING CAMERA & MIC...
-      </div>
+      <div id="state">PRESS START TO SYSTEM</div>
     </section>
+  </div>
 
+  <!-- ปุ่ม Start สำหรับกระตุ้นสิทธิ์บนมือถือ -->
+  <div id="startOverlay">
+    <button id="startBtn">START JIMMY</button>
   </div>
 
   <script src="app.js"></script>
 </body>
-
 </html>
+
